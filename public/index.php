@@ -11,6 +11,12 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
         return $controller->defaultAction();
     });
 
+    $r->addRoute('OPTONS', '/api/1.0/', function () {
+        $controller = new App\Controller\ApiController();
+
+        return $controller->optionsAction();
+    });
+
     $r->addRoute('HEAD', '/api/1.0/', function () {
         $controller = new App\Controller\ApiController();
 

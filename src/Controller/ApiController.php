@@ -65,6 +65,14 @@ class ApiController extends AbstractController
     }
 
     /**
+     * OPTIONS
+     */
+    public function optionsAction()
+    {
+        $this->render(__METHOD__, ['method' => $this->method]);
+    }
+
+    /**
      * HEAD
      */
     public function headAction()
@@ -124,6 +132,8 @@ class ApiController extends AbstractController
 
         header('Content-Type: application/json');
 
-        echo json_encode($params);
+        if ($params !== null) {
+            echo json_encode($params);
+        }
     }
 }
