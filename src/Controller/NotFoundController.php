@@ -15,8 +15,6 @@ class NotFoundController extends AbstractController
 {
     public function defaultAction()
     {
-        header('Not Found', true, 404);
-
-        echo "Page Not Found";
+        http_response_code(404);
     }
 }

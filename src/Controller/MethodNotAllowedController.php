@@ -15,8 +15,6 @@ class MethodNotAllowedController extends AbstractController
 {
     public function defaultAction()
     {
-        header('Method Not Allowed', true, 405);
-
-        echo "Method Not Allowed";
+        http_response_code(405);
     }
 }
