@@ -2,7 +2,7 @@
 # Reference: https://hub.docker.com/_/php?tab=description
 
 # Base docker image
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Install required packages
 RUN apt-get update && apt-get install -y \
