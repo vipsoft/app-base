@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractController;
 use App\Service\XmlService;
+use Pimple\Psr11\Container;
 
 /**
  * API controller
@@ -25,16 +26,14 @@ class ApiController extends AbstractController
     protected $data;
 
     /**
-     * @var \App\Service\XmlService
+     * Constructor
+     *
+     * @param \Pimple\Psr11\Container $container
      */
-    protected $xmlService;
-
-    /**
-     * @inheritdoc
-     */
-    public function __construct()
-    {
-        parent::__construct();
+    public function __construct(
+        protected Container $container
+    ) {
+        parent::__construct($container);
 
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->data = $_POST;
@@ -43,25 +42,14 @@ class ApiController extends AbstractController
             return;
         }
 
-        if (preg_match('/~^application/json(;|$)~', $_SERVER['CONTENT_TYPE'])) {
+        if (preg_match('~^application/json(;|$)~', $_SERVER['CONTENT_TYPE'])) {
             $this->data = json_decode(file_get_contents('php://input'), true);
-        /*
         } elseif (preg_match('~^text/xml(;|$)~', $_SERVER['CONTENT_TYPE']) ||
             preg_match('~^application/xml(;|$)~', $_SERVER['CONTENT_TYPE'])
         ) {
-            $this->data = $this->xmlService->deserialize(file_get_contents('php://input'));
-        */
+            $name = 'Request';
+            $this->data = $this->container->get('app.service.xml')->unserialize($name, file_get_contents('php://input'));
         }
-    }
-
-    /**
-     * Inject services
-     *
-     * @param \App\Service\XmlService $xmlService
-     */
-    public function setServices(XmlService $xmlService)
-    {
-        $this->xmlService = $xmlService;
     }
 
     /**
@@ -120,15 +108,13 @@ class ApiController extends AbstractController
      */
     protected function render($sourceMethod, $params = null)
     {
-        /*
         if (isset($_SERVER['HTTP_ACCEPT']) && preg_match('~^text/xml([,;]|$)~', $_SERVER['HTTP_ACCEPT'])) {
             header('Content-Type: text/xml');
 
-            echo $this->xmlService->serialize($params);
+            echo $this->container->get('app.service.xml')->serialize('Response', $params);
 
             return;
         }
-        */
 
         header('Content-Type: application/json');
 

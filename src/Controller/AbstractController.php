@@ -4,6 +4,8 @@
  */
 namespace App\Controller;
 
+use Pimple\Psr11\Container;
+
 /**
  * Abstract Controller
  *
@@ -18,9 +20,12 @@ abstract class AbstractController
 
     /**
      * Constructor
+     *
+     * @param \Pimple\Psr11\Container $container
      */
-    public function __construct()
-    {
+    public function __construct(
+        protected Container $container
+    ) {
         session_start();
 
         if ( ! array_key_exists('lang', $_SESSION)) {

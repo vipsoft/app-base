@@ -21,8 +21,9 @@
         "ext-mbstring": "*",
         "ext-xml": "*",
         "ext-zip": "*",
+        "geoip2/geoip2": "^2.12",
         "nikic/fast-route": "^1.3",
-        "geoip2/geoip2": "^2.12"
+        "pimple/pimple": "^3.5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0",
