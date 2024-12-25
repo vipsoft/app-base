@@ -13,8 +13,20 @@ use App\Controller\AbstractController;
  */
 class MethodNotAllowedController extends AbstractController
 {
+    /**
+     * Constructor
+     *
+     * @param \Pimple\Psr11\Container $container
+     * @param array                   $allowedMethods
+     */
+    public function __construct(
+        protected Container $container,
+        private array $allowedMethods = []
+    ) {
+    }
+
     public function defaultAction()
     {
-        http_response_code(405);
+        header('Allow: ' . implode(', ', $this->allowedMethods), true, 405);
     }
 }
