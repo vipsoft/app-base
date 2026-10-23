@@ -1,7 +1,7 @@
-version: '3.7'
 services:
   chromedriver:
     image: blueimp/chromedriver
+    shm_size: 2gb
     tmpfs: /tmp
     environment:
       - ENABLE_VNC=true

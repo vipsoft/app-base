@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "bento/ubuntu-24.04"
+  config.vm.box = "bento/ubuntu-26.04"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -77,6 +77,13 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]
     vb.customize ["modifyvm", :id, "--audioout", "on"]
 
-    vb.memory = "2048"
+    vb.memory = "4096"
+  end
+
+  config.vm.provision "shell" do |s|
+    s.inline = <<-SHELL
+      apt-get update && apt-get upgrade
+      apt-get install --assume-yes --install-suggests docker.io
+    SHELL
   end
 end
